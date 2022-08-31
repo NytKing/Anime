@@ -31,3 +31,18 @@ Now when we take a look at the data we see that the special characters are remov
 
 this output is later loaded into a excel sheet in .xlsx format, so that it can be uploaded into to SQL server.
 
+once loaded into SQL server I used ``` string_split ``` function to make each row to have only one genre and used ```rank``` function to take only the first genre(one anime can have multiple genres)
+
+```
+SELECT DISTINCT value,uid, RANK() OVER(PARTITION BY uid ORDER BY value) AS position  
+FROM dbo.Sheet1$
+CROSS APPLY string_split(genre,' ')
+WHERE value != ' '
+```
+Once this was done I used a case funtion to create a new category to see how popular the anime was using the ```case``` function
+
+## 4. Tableau Dashboard
+
+Finally data was visualized in [Tableau](https://public.tableau.com/app/profile/akshay1426/viz/form_sql/Dashboard1)
+
+![image](https://user-images.githubusercontent.com/86428423/187690436-7e6942fc-18f9-43d6-a33e-536e3de37785.png)
